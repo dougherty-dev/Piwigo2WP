@@ -32,7 +32,7 @@ final class Piwigo2WP extends WP_Widget {
 
 		if (empty($gallery['url'])) return;
 		$piwigo_url = $gallery['url'];
-		if (substr($piwigo_url, -1) !== '/') $piwigo_url .= '/';
+		if (!str_ends_with($piwigo_url, '/')) $piwigo_url .= '/';
 
 		$title = apply_filters('widget_title', empty($gallery['title']) ? '&nbsp;' : $gallery['title']);
 		if ($title) $title = $before_title . $title . $after_title;

@@ -41,7 +41,7 @@ final class Piwigo2WP extends WP_Widget {
 		$image_size = empty($gallery['image_size']) ? 'xl' : $gallery['image_size'];
 		$number = empty($gallery['number']) ? 1 : intval($gallery['number']);
 
-		$callstr = $piwigo_url . 'ws.php?method=pwg.categories.getImages&format=json&per_page=' . intval($gallery['number']) . '&recursive=true&order=random';
+		$callstr = $piwigo_url . 'ws.php?method=pwg.categories.getImages&format=json&order=random&per_page=' . $number;
 		$response = wp_remote_get($callstr);
 		if (!is_wp_error($response)) {
 			$thumbc = json_decode($response['body'], true);

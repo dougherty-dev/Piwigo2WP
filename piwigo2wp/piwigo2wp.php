@@ -8,7 +8,7 @@ Author: Niklas Dougherty
 Author URI: https://github.com/dougherty-dev
 License: GNU General Public License v3.0
 Copyright: 2021– Niklas Dougherty
-Based on PiwigoPress (2009-2012	VDigital, 2014-2015	Norbert Preining).
+Based on PiwigoPress (2009-2012	VDigital, 2014-2015 Norbert Preining).
 */
 
 version_compare(PHP_VERSION, '8.0', '>=') or exit;

@@ -11,7 +11,7 @@ This derivative is heavily stripped down and simplified. It only retains the abi
 For PHP 8, Piwigo 12 and above. Use PiwigoPress for older PHP versions and older versions of Piwigo.
 
 ## Installation
-Install folder piwigo2wp manually into your Wordpress plugins folder.
+Install folder pwg2w manually into your Wordpress plugins folder.
 
 Activate, and then add a new widget.
 

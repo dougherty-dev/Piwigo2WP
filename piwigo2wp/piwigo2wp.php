@@ -63,7 +63,7 @@ final class Piwigo2WP extends WP_Widget {
 				}
 
 				$alt = htmlspecialchars($picture['name']);
-				if (isset($picture['comment'])) $alt .= (' -- ' . htmlspecialchars($picture['comment']));
+				if (isset($picture['comment'])) $alt .= ' -- ' . htmlspecialchars($picture['comment']);
 
 				echo '<a title="' . htmlspecialchars($picture['name']) . '" href="'
 					. $piwigo_url . 'picture.php?/' . $picture['id'] . '">

@@ -20,9 +20,8 @@ define('PWG2WP_VERSION', '1.0.0');
 
 final class Piwigo2WP extends WP_Widget {
 	function __construct() {
-		$widget_ops = ['classname' => PWG2WP_NAME, 'description' => __("Adds a picture to your sidebar.", 'piwigo2wp')];
-		$control_ops = ['width' => 780, 'height' => 300];
-		WP_Widget::__construct(PWG2WP_NAME, PWG2WP_NAME, $widget_ops, $control_ops);
+		$options = ['classname' => PWG2WP_NAME, 'description' => __("Adds a picture to your sidebar.", 'piwigo2wp')];
+		WP_Widget::__construct(PWG2WP_NAME, PWG2WP_NAME, $options);
 	}
 
 	function widget($args, $gallery) {
@@ -147,7 +146,7 @@ function piwigo2wp_load_in_head(): void {
 add_action('wp_head', 'piwigo2wp_load_in_head');
 
 function piwigo2wp_register_plugin(): void {
-	if (current_user_can('edit_posts') && current_user_can('edit_pages')) {
+	if (current_user_can('edit_posts') || current_user_can('edit_pages')) {
 		add_action('admin_head', 'piwigo2wp_load_in_head');
 	}
 }

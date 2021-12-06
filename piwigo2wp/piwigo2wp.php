@@ -13,8 +13,6 @@ Based on PiwigoPress (2009-2012	VDigital, 2014-2015 Norbert Preining).
 
 version_compare(PHP_VERSION, '8.0', '>=') or exit;
 defined('ABSPATH') or exit;
-if (defined('PHPWG_ROOT_PATH')) return;
-
 define('PWG2WP_NAME', 'piwigo2wp');
 define('PWG2WP_VERSION', '1.0.0');
 

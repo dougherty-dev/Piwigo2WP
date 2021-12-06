@@ -25,15 +25,15 @@ final class Piwigo2WP extends WP_Widget {
 	}
 
 	function widget($args, $gallery) {
+		if (empty($gallery['url'])) return;
 		extract($args);
 		echo $before_widget . PHP_EOL;
 
-		if (empty($gallery['url'])) return;
 		$piwigo_url = $gallery['url'];
 		if (!str_ends_with($piwigo_url, '/')) $piwigo_url .= '/';
 
 		$title = apply_filters('widget_title', empty($gallery['title']) ? '&nbsp;' : $gallery['title']);
-		if ($title) $title = $before_title . $title . $after_title;
+		if ($title !== '') $title = $before_title . $title . $after_title;
 		echo $title . PHP_EOL;
 
 		$image_size = empty($gallery['image_size']) ? 'xl' : $gallery['image_size'];

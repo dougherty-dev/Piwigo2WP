@@ -1,9 +1,9 @@
 <?php declare(strict_types = 1);
 /*
 Plugin Name: Piwigo2WP
-Plugin URI: https://github.com/dougherty-dev
+Plugin URI: https://github.com/dougherty-dev/Piwigo2WP
 Description: Include random images from an open API Piwigo gallery in your WP blog.
-Version: 1.0
+Version: 1.0.0
 Author: Niklas Dougherty
 Author URI: https://github.com/dougherty-dev
 License: GNU General Public License v3.0
@@ -16,7 +16,7 @@ defined('ABSPATH') or exit;
 if (defined('PHPWG_ROOT_PATH')) return;
 
 define('PWG2WP_NAME', 'piwigo2wp');
-define('PWG2WP_VERSION', '1.0');
+define('PWG2WP_VERSION', '1.0.0');
 
 final class Piwigo2WP extends WP_Widget {
 	function __construct() {
@@ -61,7 +61,7 @@ final class Piwigo2WP extends WP_Widget {
 					}
 
 					$comment = isset($picture['comment']) ? wp_strip_all_tags($picture['comment']) : '';
-					$name = isset($picture['name']) ? wp_strip_all_tags($picture['name']) . ' -- ' . $comment : '';
+					$name = isset($picture['name']) ? wp_strip_all_tags($picture['name']) . ' – ' . $comment : '';
 
 					echo '<a title="' . $name . '" href="' . $piwigo_url . 'picture.php?/' . $picture['id'] . '">
 						<img class="PWG2WP_thumb" src="' . $picture['image_url'] . '" alt="' . $name . '"/>' . PHP_EOL;
@@ -90,6 +90,7 @@ final class Piwigo2WP extends WP_Widget {
 		);
 
 		$image_size = esc_attr($gallery['image_size']);
+		$image_size_field_name = $this->get_field_name('image_size');
 
 		echo '<div class="PWG2WP_widget">
 	<table>
@@ -97,38 +98,35 @@ final class Piwigo2WP extends WP_Widget {
 			<td>
 				<fieldset class="edge">
 					<legend><span> ' . __('Gallery', 'piwigo2wp') . ' </span></legend>
-					<label for=">' . $this->get_field_id('title') . '">' . __('Title', 'piwigo2wp') . ' </label>
-					<input id="' . $this->get_field_id('title') . '" name="' . $this->get_field_name('title')
-						. '" type="text" value="' . esc_attr($gallery['title']) . '"/>
-					<label for=">' . $this->get_field_id('url') . '">' . __('Gallery URL', 'piwigo2wp') . ' </label>
-					<input id="' . $this->get_field_id('url') . '" name="' . $this->get_field_name('url')
-						. '" type="text" value="' . esc_attr($gallery['url']) . '"/>
-					<label for=">' . $this->get_field_id('number') . '">' . __('Number of pictures', 'piwigo2wp') . ' </label>
-					<input id="' . $this->get_field_id('number') . '" name="' . $this->get_field_name('number')
-						. '" type="text" value="' . esc_attr($gallery['number']) . '"/>
+					<label>' . __('Title', 'piwigo2wp') . '<input type="text" name="' . $this->get_field_name('title') .
+						'" value="' . esc_attr($gallery['title']) . '"/></label>
+					<label>' . __('Gallery URL', 'piwigo2wp') . '<input type="text" name="' . $this->get_field_name('url') .
+						'" value="' . esc_attr($gallery['url']) . '"/></label>
+					<label>' . __('Number of pictures', 'piwigo2wp') . '<input type="text" name="' . $this->get_field_name('number') .
+						'" value="' . esc_attr($gallery['number']) . '"/></label>
 				</fieldset>
 			</td>
 			<td>
 				<fieldset class="right edge">
 					<legend><span> ' . __('Size', 'piwigo2wp') . ' </span></legend>
-					<label for="'. $this->get_field_id('image_size') . '">' . __('Square', 'piwigo2wp') . ' </label>
-					<input type="radio" value="sq" name="'. $this->get_field_name('image_size') .'" ' . checked($image_size, 'sq', false) . '><br/>
-					<label for="'. $this->get_field_id('image_size') . '">' . __('Thumbnail', 'piwigo2wp') . ' </label>
-					<input type="radio" value="th" name="'. $this->get_field_name('image_size') .'" ' . checked($image_size, 'th', false) . '><br/>
-					<label for="'. $this->get_field_id('image_size') . '">' . __('XXS - tiny', 'piwigo2wp') . ' </label>
-					<input type="radio" value="2s" name="'. $this->get_field_name('image_size') .'" ' . checked($image_size, '2s', false) . '><br/>
-					<label for="'. $this->get_field_id('image_size') . '">' . __('XS - extra small', 'piwigo2wp') . ' </label>
-					<input type="radio" value="xs" name="'. $this->get_field_name('image_size') .'" ' . checked($image_size, 'xs', false) . '><br/>
-					<label for="'. $this->get_field_id('image_size') . '">' . __('S - small', 'piwigo2wp') . ' </label>
-					<input type="radio" value="sm" name="'. $this->get_field_name('image_size') .'" ' . checked($image_size, 'sm', false) . '><br/>
-					<label for="'. $this->get_field_id('image_size') . '">' . __('M - medium', 'piwigo2wp') . ' </label>
-					<input type="radio" value="me" name="'. $this->get_field_name('image_size') .'" ' . checked($image_size, 'me', false) . '><br/>
-					<label for="'. $this->get_field_id('image_size') . '">' . __('L - large', 'piwigo2wp') . ' </label>
-					<input type="radio" value="la" name="'. $this->get_field_name('image_size') .'" ' . checked($image_size, 'la', false) . '><br/>
-					<label for="'. $this->get_field_id('image_size') . '">' . __('XL - extra large', 'piwigo2wp') . ' </label>
-					<input type="radio" value="xl" name="'. $this->get_field_name('image_size') .'" ' . checked($image_size, 'xl', false) . '><br/>
-					<label for="'. $this->get_field_id('image_size') . '">' . __('XXL - huge', 'piwigo2wp') . ' </label>
-					<input type="radio" value="xx" name="'. $this->get_field_name('image_size') .'" ' . checked($image_size, 'xx', false) . '>
+					<label>' . __('Square', 'piwigo2wp') . '<input type="radio" value="sq" name="' .
+						$image_size_field_name .'" ' . checked($image_size, 'sq', false) . '></label><br>
+					<label>' . __('Thumbnail', 'piwigo2wp') . '<input type="radio" value="th" name="' .
+						$image_size_field_name .'" ' . checked($image_size, 'th', false) . '></label><br>
+					<label>' . __('XXS - tiny', 'piwigo2wp') . '<input type="radio" value="2s" name="' .
+						$image_size_field_name .'" ' . checked($image_size, '2s', false) . '></label><br>
+					<label>' . __('XS - extra small', 'piwigo2wp') . '<input type="radio" value="xs" name="' .
+						$image_size_field_name .'" ' . checked($image_size, 'xs', false) . '></label><br>
+					<label>' . __('S - small', 'piwigo2wp') . '<input type="radio" value="sm" name="' .
+						$image_size_field_name .'" ' . checked($image_size, 'sm', false) . '></label><br>
+					<label>' . __('M - medium', 'piwigo2wp') . '<input type="radio" value="me" name="' .
+						$image_size_field_name .'" ' . checked($image_size, 'me', false) . '></label><br>
+					<label>' . __('L - large', 'piwigo2wp') . '<input type="radio" value="la" name="' .
+						$image_size_field_name .'" ' . checked($image_size, 'la', false) . '></label><br>
+					<label>' . __('XL - extra large', 'piwigo2wp') . '<input type="radio" value="xl" name="' .
+						$image_size_field_name .'" ' . checked($image_size, 'xl', false) . '></label><br>
+					<label>' . __('XXL - huge', 'piwigo2wp') . '<input type="radio" value="xx" name="' .
+						$image_size_field_name .'" ' . checked($image_size, 'xx', false) . '></label>
 				</fieldset>
 			</td>
 		</tr>

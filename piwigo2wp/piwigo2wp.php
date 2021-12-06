@@ -20,8 +20,7 @@ define('PWG2WP_VERSION', '1.0');
 
 final class Piwigo2WP extends WP_Widget {
 	function __construct() {
-		$widget_ops = ['classname' => PWG2WP_NAME,
-			'description' => __("Adds a picture to your sidebar.", 'piwigo2wp')];
+		$widget_ops = ['classname' => PWG2WP_NAME, 'description' => __("Adds a picture to your sidebar.", 'piwigo2wp')];
 		$control_ops = ['width' => 780, 'height' => 300];
 		WP_Widget::__construct(PWG2WP_NAME, PWG2WP_NAME, $widget_ops, $control_ops);
 	}
@@ -45,36 +44,31 @@ final class Piwigo2WP extends WP_Widget {
 		$response = wp_remote_get($callstr);
 		if (!is_wp_error($response)) {
 			$thumbc = json_decode($response['body'], true);
-			if (!isset($thumbc["result"]["images"])) return;
-			$pictures = $thumbc["result"]["images"];
-			foreach ($pictures as $picture) {
-				if (isset($picture['derivatives']['square']['url'])) {
-					$picture['image_url'] = match($image_size) {
-						'sq' => $picture['derivatives']['square']['url'],
-						'sm' => $picture['derivatives']['small']['url'],
-						'xs' => $picture['derivatives']['xsmall']['url'],
-						'2s' => $picture['derivatives']['2small']['url'],
-						'me' => $picture['derivatives']['medium']['url'],
-						'la' => $picture['derivatives']['large']['url'],
-						'xl' => $picture['derivatives']['xlarge']['url'],
-						'xx' => $picture['derivatives']['xxlarge']['url'],
-						default => $picture['derivatives']['thumb']['url']
-					};
+			if (isset($thumbc["result"]["images"])) {
+				foreach ($thumbc["result"]["images"] as $picture) {
+					if (isset($picture['derivatives']['square']['url'])) {
+						$picture['image_url'] = match($image_size) {
+							'sq' => $picture['derivatives']['square']['url'],
+							'sm' => $picture['derivatives']['small']['url'],
+							'xs' => $picture['derivatives']['xsmall']['url'],
+							'2s' => $picture['derivatives']['2small']['url'],
+							'me' => $picture['derivatives']['medium']['url'],
+							'la' => $picture['derivatives']['large']['url'],
+							'xl' => $picture['derivatives']['xlarge']['url'],
+							'xx' => $picture['derivatives']['xxlarge']['url'],
+							default => $picture['derivatives']['thumb']['url']
+						};
+					}
+
+					$comment = isset($picture['comment']) ? wp_strip_all_tags($picture['comment']) : '';
+					$name = isset($picture['name']) ? wp_strip_all_tags($picture['name']) . ' -- ' . $comment : '';
+
+					echo '<a title="' . $name . '" href="' . $piwigo_url . 'picture.php?/' . $picture['id'] . '">
+						<img class="PWG2WP_thumb" src="' . $picture['image_url'] . '" alt="' . $name . '"/>' . PHP_EOL;
+
+					if ($name !== '') echo '<span class="PWG2WP_caption">' . $name . '</span>' . PHP_EOL;
+					echo '</a>' . PHP_EOL;
 				}
-
-				$alt = htmlspecialchars($picture['name']);
-				if (isset($picture['comment'])) $alt .= ' -- ' . htmlspecialchars($picture['comment']);
-
-				echo '<a title="' . htmlspecialchars($picture['name']) . '" href="'
-					. $piwigo_url . 'picture.php?/' . $picture['id'] . '">
-					<img class="PWG2WP_thumb" src="' . $picture['image_url'] . '" alt="' . $alt . '"/>' . PHP_EOL;
-
-				if (isset($picture['comment'])) {
-					$picture['comment'] = wp_strip_all_tags($picture['comment']);
-					if (trim($picture['comment']) !== '')
-						echo '<span class="PWG2WP_caption">' . $picture['comment'] . '</span>' . PHP_EOL;
-				}
-				echo '</a>' . PHP_EOL;
 			}
 		}
 
@@ -146,26 +140,25 @@ final class Piwigo2WP extends WP_Widget {
 function piwigo2wp_init(): void {
 	register_widget('Piwigo2WP');
 }
-add_action('widgets_init', PWG2WP_NAME . '_init');
+add_action('widgets_init', 'piwigo2wp_init');
 
 function piwigo2wp_load_in_head(): void {
 	echo '<link media="all" type="text/css" href="' .
 		plugins_url('piwigo2wp/piwigo2wp.css?ver=') . PWG2WP_VERSION . '" id="piwigo2wp-css" rel="stylesheet">';
 }
-add_action('wp_head', PWG2WP_NAME . '_load_in_head');
+add_action('wp_head', 'piwigo2wp_load_in_head');
 
 function piwigo2wp_register_plugin(): void {
-	if (!current_user_can('edit_posts') && !current_user_can('edit_pages')) return;
-	add_action('admin_head', PWG2WP_NAME . '_load_in_head');
+	if (current_user_can('edit_posts') && current_user_can('edit_pages')) {
+		add_action('admin_head', 'piwigo2wp_load_in_head');
+	}
 }
-add_action('init', PWG2WP_NAME . '_register_plugin');
+add_action('init', 'piwigo2wp_register_plugin');
 
 function piwigo2wp_plugin_links(array $links, string $file): array {
 	if ($file === plugin_basename(__FILE__)) {
-		return array_merge($links,
-			['<a href="https://piwigo.org/">' . __('Piwigo') . '</a>']
-		);
+		return array_merge($links, ['<a href="https://piwigo.org/">' . __('Piwigo') . '</a>']);
 	}
 	return $links;
 }
-add_filter('plugin_row_meta', PWG2WP_NAME . '_plugin_links', 10, 2);
+add_filter('plugin_row_meta', 'piwigo2wp_plugin_links', 10, 2);

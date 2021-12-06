@@ -152,25 +152,25 @@ final class Piwigo2WP extends WP_Widget {
 	}
 }
 
-function piwigo2wp_init() {
+function piwigo2wp_init(): void {
 	register_widget('Piwigo2WP');
 }
 add_action('widgets_init', PWG2WP_NAME . '_init');
 
-function piwigo2wp_load_in_head() {
+function piwigo2wp_load_in_head(): void {
 	echo '<link media="all" type="text/css" href="' .
 		plugins_url('piwigo2wp/piwigo2wp.css?ver=') . PWG2WP_VERSION . '" id="piwigo2wp-css" rel="stylesheet">';
 }
 add_action('wp_head', PWG2WP_NAME . '_load_in_head');
 
-function piwigo2wp_register_plugin() {
+function piwigo2wp_register_plugin(): void {
 	if (!current_user_can('edit_posts') && !current_user_can('edit_pages'))
 		return;
 	add_action('admin_head', PWG2WP_NAME . '_load_in_head');
 }
 add_action('init', PWG2WP_NAME . '_register_plugin');
 
-function piwigo2wp_plugin_links($links, $file) {
+function piwigo2wp_plugin_links(array $links, string $file): array {
 	$plugin = plugin_basename(__FILE__);
 
 	if ($file === $plugin) {

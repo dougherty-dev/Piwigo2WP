@@ -1,4 +1,4 @@
-# Piwigo2WP
+# PWG2W
 
 ## Description
 Include random images from an open API Piwigo gallery in your WP blog.
@@ -17,4 +17,4 @@ Activate, and then add a new widget.
 
 ---
 
-![screenshot](https://user-images.githubusercontent.com/71740645/144752348-b6a88c35-3839-4b61-a2ec-235e87d8d4b6.jpg)
+![screenshot-1](https://user-images.githubusercontent.com/71740645/144901104-bf0e5224-91f9-465e-bffd-8b0c574cba51.jpg)

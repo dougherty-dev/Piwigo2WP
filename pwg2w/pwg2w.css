@@ -1,27 +1,27 @@
-.PWG2W_widget {
+.PWG2WP_widget {
 	margin: 0.5;
 	padding: 3px;
 	border: none;
 }
 
-.PWG2W_widget td {
+.PWG2WP_widget td {
 	width: 50%;
 	vertical-align: top;
 	border: none;
 }
 
-.PWG2W_widget table {
+.PWG2WP_widget table {
 	width: 100%;
 	border: none;
 }
 
-.PWG2W_widget fieldset.edge {
+.PWG2WP_widget fieldset.edge {
 	border: 1px solid #dfdfdf;
 	border-radius: 6px 6px 6px 6px;
 	padding: 4px;
 }
 
-.PWG2W_widget input {
+.PWG2WP_widget input {
 	background-color: #50626f !important;
 	color: #ffffff !important;
 }
@@ -30,19 +30,16 @@
 	text-align: right;
 }
 
-.PWG2W_caption {
-	display: block;
-	border: none;
+.PWG2WP_caption {
 	font-size: 0.8em;
 	margin-top: 0.5em;
 	margin-left: 0;
 	padding-left: 0;
-	max-width: 75%;
 }
 
-.PWG2W_thumb {
+.PWG2WP_thumb {
 	border: 1px solid black;
 	margin-top: 1em;
-	width: 75%;
-	height: 75%;
+	max-width: 100%;
+	max-height: 100%;
 }

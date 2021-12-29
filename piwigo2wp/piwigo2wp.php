@@ -3,7 +3,7 @@
 Plugin Name: Piwigo2WP
 Plugin URI: https://github.com/dougherty-dev/Piwigo2WP
 Description: Include random images from an open API Piwigo gallery in your WP blog.
-Version: 1.0.0
+Version: 1.0.1
 Author: Niklas Dougherty
 Author URI: https://github.com/dougherty-dev
 License: GNU General Public License v3.0
